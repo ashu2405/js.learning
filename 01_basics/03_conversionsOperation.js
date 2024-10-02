@@ -58,7 +58,7 @@ let gameCounter = 100
 console.log(gameCounter);
 
 
-// link to study
+// link to s
 // https://tc39.es/ecma262/#sec-abstract-operations 
 
 
