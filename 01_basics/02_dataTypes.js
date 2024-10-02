@@ -28,3 +28,8 @@ let isLoggedIn = false
 console.log(typeof "Ashutosh"); // string
 console.log(typeof undefined); // undefined
 console.log(typeof null); // object
+
+
+
+
+
