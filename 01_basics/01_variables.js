@@ -15,16 +15,7 @@ because of issue in block space and functional space
 
 */
 
-console.table([accountId, accountEmail, accountCity, accountState, accountPassword, accountPercent]);
-
-
-
-
-
-
-
-
-
+console.table([accountId, accountEmail, accountCity, accountState, accountPassword, accountPercent]); 
 
 
 
