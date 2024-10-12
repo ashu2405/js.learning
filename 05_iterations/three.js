@@ -1,4 +1,4 @@
-// for of loops
+// for of loops is used for arrays
 
 const arr = [1, 2, 3, 4, 5]
 
