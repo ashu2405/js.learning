@@ -89,3 +89,146 @@ setInterval(function () {
 
 ``` javascript
 
+// Generate a random number between 1 and 100
+let randomNumber = parseInt(Math.random() * 100 + 1);
+
+// Select all required DOM elements
+const submit = document.querySelector('#subt');
+const userInput = document.querySelector('#guessField');
+const guessSlot = document.querySelector('.guesses');
+const remaining = document.querySelector('.lastResult');
+const lowORHi = document.querySelector('.lowOrHi');
+const startOver = document.querySelector('.resultParas');
+
+// Create an empty paragraph element for later use
+const p = document.createElement('p');
+
+// Track previous guesses and number of guesses
+let prevGuess = [];
+let numGuess = 1;
+
+// Game state tracker
+let playGame = true;
+
+// Add event listener to the submit button
+if (playGame) {
+  submit.addEventListener('click', function (e) {
+    // Prevent form submission and page reload
+    e.preventDefault();
+
+    // Parse the user's input as an integer
+    const guess = parseInt(userInput.value);
+
+    // Call the function to validate and process the guess
+    validateGuess(guess);
+  });
+}
+
+// Validate the user's guess
+function validateGuess(guess) {
+  if (isNaN(guess)) {
+    // Check if the input is not a valid number
+    alert('Please enter a valid number');
+  } else if (guess < 1) {
+    // Ensure the guess is at least 1
+    alert('Please enter a number greater than 1');
+  } else if (guess > 100) {
+    // Ensure the guess is at most 100
+    alert('Please enter a number less than 100');
+  } else {
+    // Store the valid guess
+    prevGuess.push(guess);
+
+    // Check if the game is over (maximum of 10 guesses)
+    if (numGuess === 11) {
+      displayGuess(guess);
+      displayMessage(`Game Over. Random number was ${randomNumber}`);
+      endGame();
+    } else {
+      // Otherwise, process and display the guess
+      displayGuess(guess);
+      checkGuess(guess);
+    }
+  }
+}
+
+// Check the guess against the random number
+function checkGuess(guess) {
+  if (guess === randomNumber) {
+    // If the guess is correct, end the game
+    displayMessage('You guessed it right');
+    endGame();
+  } else if (guess < randomNumber) {
+    // If the guess is too low, inform the user
+    displayMessage('Number is too low');
+  } else if (guess > randomNumber) {
+    // If the guess is too high, inform the user
+    displayMessage('Number is too high');
+  }
+}
+
+// Display the user's guess and update the number of remaining guesses
+function displayGuess(guess) {
+  // Clear the input field after each guess
+  userInput.value = '';
+
+  // Append the current guess to the guesses list
+  guessSlot.innerHTML += `${guess} `;
+
+  // Increment the number of guesses
+  numGuess++;
+
+  // Update the remaining guesses display
+  remaining.innerHTML = `${11 - numGuess}`;
+}
+
+// Display messages to the user
+function displayMessage(message) {
+  lowORHi.innerHTML = `<h2>${message}</h2>`;
+}
+
+// End the game and provide an option to start over
+function endGame() {
+  // Disable the input field
+  userInput.value = '';
+  userInput.setAttribute('disabled', '');
+
+  // Create a "Start new game" button
+  p.classList.add('button');
+  p.innerHTML = `<h2 id="newGame"> Start new Game</h2>`;
+  startOver.appendChild(p);
+
+  // Change the game state to prevent further input
+  playGame = false;
+
+  // Call the function to handle starting a new game
+  newGame();
+}
+
+// Start a new game
+function newGame() {
+  const newGameButton = document.querySelector('#newGame');
+
+  // Add event listener to the "Start new game" button
+  newGameButton.addEventListener('click', function (e) {
+    // Reset the random number, guesses, and game state
+    randomNumber = parseInt(Math.random() * 100 + 1);
+    prevGuess = [];
+    numGuess = 1;
+
+    // Clear the previous guesses display
+    guessSlot.innerHTML = '';
+
+    // Reset the remaining guesses display
+    remaining.innerHTML = `${11 - numGuess}`;
+
+    // Enable the input field for new guesses
+    userInput.removeAttribute('disabled');
+
+    // Remove the "Start new game" button
+    startOver.removeChild(p);
+
+    // Change the game state to allow new guesses
+    playGame = true;
+  });
+}
