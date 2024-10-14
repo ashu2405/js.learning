@@ -232,3 +232,82 @@ function newGame() {
     playGame = true;
   });
 }
+
+
+``` 
+
+## project 5 solution 
+
+``` javascript
+
+// Select the HTML element with the ID 'insert' to display key information
+const insert = document.getElementById('insert');
+
+// Add an event listener to the window object that listens for keydown events
+window.addEventListener('keydown', (e) => {
+  // When a key is pressed, update the 'insert' element's innerHTML with a table
+  // displaying information about the key pressed, keycode, and code.
+
+  insert.innerHTML = `
+    <div class='color'>  <!-- Wrapper for styling -->
+      <table>  <!-- Table to display key info -->
+        <tr>
+          <th>Key</th>
+          <th>Keycode</th>
+          <th>Code</th>
+        </tr>
+        <tr>
+          <!-- Show the pressed key, handle 'Space' key as a special case -->
+          <td>${e.key === ' ' ? 'Space' : e.key}</td>
+          
+          <!-- Display the numerical keyCode of the pressed key -->
+          <td>${e.keyCode}</td>
+          
+          <!-- Display the string representation (code) of the pressed key -->
+          <td>${e.code}</td>
+        </tr>
+      </table>
+    </div>
+  `;
+});
+
+
+```
+
+## project 6 solution
+
+``` javascript
+
+// Generate random color
+const randomColor = function () {
+  const hex = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += hex[Math.floor(Math.random() * 16)]; // Use hex[] to index the string
+  }
+  return color;
+};
+
+let intervalId;
+
+// Start changing background color every second
+const startchangingColor = function () {
+  if (!intervalId) {
+    // Prevent multiple intervals
+    intervalId = setInterval(changeBgColor, 1000);
+  }
+
+  function changeBgColor() {
+    document.body.style.backgroundColor = randomColor();
+  }
+};
+
+// Stop changing background color
+const stopchangeColor = function () {
+  clearInterval(intervalId);
+  intervalId = null; // Reset intervalId so it can be restarted
+};
+
+// Add event listeners for start and stop buttons
+document.querySelector('#start').addEventListener('click', startchangingColor);
+document.querySelector('#stop').addEventListener('click', stopchangeColor);
